@@ -1,48 +1,45 @@
-const url = 'https://chatgpt-42.p.rapidapi.com/chatgpt';
-const chatContainer = document.querySelector('.chat-container')
+
+const chatContainer = document.querySelector('.chat-container');
+
+
+async function getData() {
 
 
 
 
-
-console.log("hello");
-
-async function getData(){
     console.log("hello");
-    const input = document.querySelector('#userMessage')
-    const userMassage = input.value
-    chatContainer.innerHTML += `<p class="userMsg">${userMassage}</p>`
-    input.value = ''
+    const input = document.querySelector('#userMessage');
+    const prompt = input.value;
+    chatContainer.innerHTML += `<p class="userMsg">${prompt}</p>`;
+    input.value = '';
 
+    const url = 'https://open-ai21.p.rapidapi.com/conversationpalm2';
     const options = {
         method: 'POST',
         headers: {
             'x-rapidapi-key': '32c7e5e6e5mshb8f0db50a7cf32bp169953jsn8fa7f677e136',
-            'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+            'x-rapidapi-host': 'open-ai21.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             messages: [
                 {
                     role: 'user',
-                    content: userMassage
+                    content: prompt
                 }
-            ],
-            web_access: false
+            ]
         })
     };
-
+    
     try {
         const response = await fetch(url, options);
-        const jsonresponse = await response.json();
-        var resMsg = jsonresponse.result
-        console.log(resMsg)
+        const result = await response.json();
+        console.log(result.BOT);
+        chatContainer.innerHTML += `<p class="aiMsg">${result.BOT}</p>`;
     } catch (error) {
         console.error(error);
     }
-
-    chatContainer.innerHTML += `<p class="aiMsg">${resMsg}</p>`
-
-
-
 }
+
+
+
